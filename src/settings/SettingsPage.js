@@ -1,9 +1,9 @@
 import React from "react";
 
-function Dashboard() {
+function SettingsPage() {
   return (
     <div className="dashboard">
-        <h1>Dashboard</h1>
+        <h1>Settings</h1>
       <img
         src="https://music-b26f.kxcdn.com/wp-content/uploads/2017/06/635963274692858859903160895_spotify-logo-horizontal-black.jpg"
         alt="Spotify logo"
@@ -13,4 +13,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default SettingsPage;
