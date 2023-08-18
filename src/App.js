@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import './App.scss';
 import Profile from '../src/profile/Profile'
-import Dashboard from '../src/dashboard/Dashboard'
+import Dashboard from './components/dashboard/Dashboard'
 import Settings from '../src/settings/SettingsPage'
 import Player from './music-player/Player';
 
