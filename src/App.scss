@@ -36,3 +36,38 @@
     transform: rotate(360deg);
   }
 }
+
+body{
+  overflow: hidden;
+  height: 100vh;
+  position: relative;
+}
+
+#my-sidebar{
+  
+  display: flex;
+  justify-content: center;
+}
+
+.login {
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.profile{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+
+    .prof-details{
+      display: grid;
+      align-items: left;
+      padding:10rem;
+    }
+  
+}

@@ -1,14 +1,43 @@
 import React from "react";
+import { Button } from "semantic-ui-react";
+import config from "../config"
+
+const redirect_uri = "http://localhost:3000/";
+const api_url = "https://accounts.spotify.com/authorize";
+const scope = [
+  "user-read-private",
+  "user-read-email",
+  "user-modify-playback-state",
+  "user-read-playback-state",
+  "user-read-currently-playing",
+  "user-read-recently-played",
+  "user-top-read",
+  "playlist-read-private",
+  "app-remote-control",
+  "streaming"
+];
 
 function Login() {
+  
+
+  const handleLogin = async() =>{
+
+    window.location.href = `${api_url}?client_id=${config.clientId}&redirect_uri=${redirect_uri}&scope=${scope.join(
+      " "
+    )}&response_type=token&show_dialog=true`;
+  }
+    
+
   return (
     <div className="login">
-      <h1>Dashboard</h1>
       <img
-        src="https://music-b26f.kxcdn.com/wp-content/uploads/2017/06/635963274692858859903160895_spotify-logo-horizontal-black.jpg"
-        alt="Spotify logo"
+        src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Black.png"
+        alt="spotify"
+        height={"200vh"}
       />
-      {/* <a href="#">LOGIN WITH SPOTIFY</a> */}
+      <Button color="green" size="large" onClick={handleLogin}>
+        Login with Spotify
+      </Button>
     </div>
   );
 }

@@ -2,10 +2,14 @@
   "name": "custom-spotify",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5000",
+  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.0.1",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.4.0",
+    "query-string": "^8.1.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0",
@@ -39,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "npm-run-all": "^4.1.5",
     "sass": "^1.62.0"
   }
 }
