@@ -37,37 +37,78 @@
   }
 }
 
-body{
+body {
   overflow: hidden;
   height: 100vh;
+  overflow: scroll;
   position: relative;
 }
 
-#my-sidebar{
-  
+#my-sidebar {
   display: flex;
   justify-content: center;
 }
 
 .login {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: ceter;
   height: 100vh;
   width: 100vw;
 }
 
-.profile{
-  display: flex;
+.profile {
+  .profile-main {
+    display: flex;
     justify-content: center;
     align-items: center;
     height: auto;
+  }
+  .prof-details {
+    display: grid;
+    align-items: left;
+    padding: 10rem;
 
-    .prof-details{
-      display: grid;
-      align-items: left;
-      padding:10rem;
+    .display-name{
+      font-size: 60px;
     }
-  
+
+    span{
+      font-size: 20px;
+      line-height: 2;
+    }
+  }
+  .top-items {
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: baseline;
+
+    .item-img{
+      margin-right:30px;
+    }
+
+    .grid{
+      width: -webkit-fill-available;
+    };
+
+    #first-item-div{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      img{
+        width: 300px;
+      }
+    }
+  }
+}
+
+.item-segment{
+  display: flex;
+  align-items: center;
 }
