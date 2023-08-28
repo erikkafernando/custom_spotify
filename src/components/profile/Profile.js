@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Image, Flag, Segment, List, Grid } from "semantic-ui-react";
+import {
+  Image,
+  Flag,
+  Segment,
+  List,
+  Grid,
+  Label,
+  Icon,
+} from "semantic-ui-react";
 
 const Profile = ({ token }) => {
   const [profile, setProfile] = useState("");
@@ -11,6 +19,15 @@ const Profile = ({ token }) => {
   const [firstTrack, setFirstTrack] = useState({});
   const [firstArtistImg, setFirstArtistImg] = useState({});
   const [firstTrackImg, setFirstTrackImg] = useState({});
+  const [following, setFollowing] = useState("");
+
+  const customColorList = {
+    color: "white",
+    // background: "rgb(119,172,207)",
+    background:
+      "linear-gradient(94deg, rgba(119,172,207,1) 1%, rgba(218,181,230,1) 75%)",
+    borderRadius: "5px",
+  };
 
   // set first artist image
   useEffect(() => {
@@ -38,6 +55,21 @@ const Profile = ({ token }) => {
       let img = res.images[1];
       setProfImg(img);
       setProfile(res);
+    };
+
+    // get following function
+    const getFollows = async () => {
+      const response = await axios.get(
+        "https://api.spotify.com/v1/me/following?type=artist",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const res = response.data.artists;
+      setFollowing(res.total);
     };
 
     // get top items
@@ -74,6 +106,7 @@ const Profile = ({ token }) => {
 
     getTopItems();
     getProfile();
+    getFollows();
   }, [token]);
 
   return (
@@ -84,45 +117,56 @@ const Profile = ({ token }) => {
             src={profImg.url}
             alt="spotify profile"
             size="medium"
-            rounded
+            circular
           />
         </div>
 
         <div className="prof-details">
+          <span className="prof-desc">PROFILE</span>
           <h1 className="display-name">{profile.display_name}</h1>
           <span className="prof-desc">{profile.id}</span>
-          <span className="prof-desc">{profile.email}</span>
           <span className="prof-desc">
             <Flag name="ph" />
             {profile.country}
           </span>
-          <span className="prof-desc">{profile.product}</span>
+          <div>
+            <Label as="a">
+              <Icon name="music" />
+              {following} Following
+            </Label>
+          </div>
         </div>
       </div>
 
       <div className="top-items">
-        <Grid>
+        <Grid columns={2} relaxed="very">
           <Grid.Row verticalAlign="bottom">
             <Grid.Column width={8}>
+              <p className="top-segment-text">Top artists</p>
               <div id="top-artists-div">
                 <div id="first-item-div">
-                  <Image src={firstArtistImg.url} alt="top artist" rounded/>
-                  <h2>{firstArtist.name}</h2>
+                  <Image
+                    src={firstArtistImg.url}
+                    alt="top artist"
+                    size="small"
+                    rounded
+                  />
+                  <p className="first-item-txt">{firstArtist.name}</p>
                 </div>
                 <div id="artist-list-div">
                   <List>
                     {topArtists.map((artist, index) => (
                       <List.Item key={index}>
-                        <Segment>
+                        <Segment inverted style={customColorList} raised>
                           <div className="item-segment">
                             <Image
                               className="item-img"
                               src={artist.images[2].url}
                               alt="top artist"
-                              size="tiny"
+                              size="mini"
                               rounded
                             />
-                            {artist.name}
+                            <p className="artist-name">{artist.name}</p>
                           </div>
                         </Segment>
                       </List.Item>
@@ -132,25 +176,38 @@ const Profile = ({ token }) => {
               </div>
             </Grid.Column>
             <Grid.Column width={8}>
+              <p className="top-segment-text">Top tracks</p>
               <div id="top-tracks-div">
                 <div id="first-item-div">
-                  <Image src={firstTrackImg.url} alt="top track" rounded/>
-                  <h2>{firstTrack.name}</h2>
+                  <Image
+                    src={firstTrackImg.url}
+                    alt="top track"
+                    size="small"
+                    rounded
+                  />
+                  <p className="first-item-txt">{firstTrack.name}</p>
                 </div>
                 <div id="track-list-div">
                   <List>
                     {topTracks.map((track, index) => (
                       <List.Item key={index}>
-                        <Segment>
+                        <Segment inverted style={customColorList} raised>
                           <div className="item-segment">
                             <Image
                               className="item-img"
                               src={track.album.images[2].url}
                               alt="top track"
-                              size="tiny"
+                              size="mini"
                               rounded
                             />
-                            {track.name}
+                            <div className="track-details">
+                              <div className="track-text">
+                                <span>{track.name}</span>
+                              </div>
+                              <div className="track-text">
+                                <p>{track.artists[0].name}</p>
+                              </div>
+                            </div>
                           </div>
                         </Segment>
                       </List.Item>

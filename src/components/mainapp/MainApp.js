@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+
 import {
   BrowserRouter as Router,
   Route,
@@ -12,10 +13,16 @@ import Dashboard from "../dashboard/Dashboard";
 import Player from "../music-player/Player";
 
 const MainApp = ({ token, setToken }) => {
+  const [activeItem, setActiveItem] = useState("home");
+
+  const handleItemClick = (itemName) => {
+    setActiveItem(itemName);
+  };
   const handleLogout = () => {
     setToken("");
     window.localStorage.removeItem("token");
   };
+
   return (
     <Container>
       <Router>
@@ -23,21 +30,35 @@ const MainApp = ({ token, setToken }) => {
           id="my-sidebar"
           as={Menu}
           icon="labeled"
-          inverted
           vertical
           visible
           width="thin"
         >
           <div id="sidebar-items">
-            <Menu.Item as={Link} to="/home">
+            <Menu.Item
+              as={Link}
+              to="/home"
+              active={activeItem === "home"}
+              onClick={() => handleItemClick("home")}
+            >
               <Icon name="home" />
               Home
             </Menu.Item>
-            <Menu.Item as={Link} to="/profile">
+            <Menu.Item
+              as={Link}
+              to="/profile"
+              active={activeItem === "profile"}
+              onClick={() => handleItemClick("profile")}
+            >
               <Icon name="user" />
               Profile
             </Menu.Item>
-            <Menu.Item as={Link} to="/player">
+            <Menu.Item
+              as={Link}
+              to="/player"
+              active={activeItem === "player"}
+              onClick={() => handleItemClick("player")}
+            >
               <Icon name="play circle" />
               Player
             </Menu.Item>

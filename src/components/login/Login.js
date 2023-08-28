@@ -14,7 +14,8 @@ const scope = [
   "user-top-read",
   "playlist-read-private",
   "app-remote-control",
-  "streaming"
+  "streaming",
+  "user-follow-read"
 ];
 
 function Login() {
