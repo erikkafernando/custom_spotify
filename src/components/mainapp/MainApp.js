@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 import {
   BrowserRouter as Router,
@@ -14,6 +15,26 @@ import Player from "../music-player/Player";
 
 const MainApp = ({ token, setToken }) => {
   const [activeItem, setActiveItem] = useState("home");
+  const [profile, setProfile] = useState("");
+  const [profImg, setProfImg] = useState("");
+
+  useEffect(() => {
+    // get profile function
+    const getProfile = async () => {
+      const response = await axios.get("https://api.spotify.com/v1/me", {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+      });
+      const res = response.data;
+      let img = res.images[1];
+      setProfImg(img);
+      setProfile(res);
+    };
+
+    getProfile();
+  }, [token]);
 
   const handleItemClick = (itemName) => {
     setActiveItem(itemName);
@@ -72,8 +93,13 @@ const MainApp = ({ token, setToken }) => {
 
         <Routes>
           <Route path="/" element={<Navigate replace to="/home" />} />
-          <Route path="/profile" element={<Profile token={token} />} />
-          <Route path="/home" element={<Dashboard token={token} />} />
+          <Route
+            path="/profile"
+            element={
+              <Profile token={token} profile={profile} profImg={profImg} />
+            }
+          />
+          <Route path="/home" element={<Dashboard token={token} profile={profile}/>} />
           <Route path="/player" element={<Player token={token} />} />
         </Routes>
       </Router>

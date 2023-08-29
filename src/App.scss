@@ -61,7 +61,7 @@ body {
   display: flex !important;
 }
 
-.active{
+.active {
   background-color: #79accf !important;
   color: #fff !important;
 }
@@ -151,16 +151,13 @@ body {
       margin-bottom: 10px;
       margin-top: 20px;
 
-      img {
-        // width: 300px;
-      }
       .first-item-txt {
         font-family: "Exo", serif;
         font-weight: 800;
         font-size: 20px;
         margin-bottom: 5px;
         margin-top: 10px;
-        margin-left:10px;
+        margin-left: 10px;
       }
     }
 
@@ -192,4 +189,55 @@ body {
 .item-segment {
   display: flex;
   align-items: center;
+}
+
+.dashboard {
+  width: 100%;
+
+  .welcome-div-main {
+    margin-bottom: 50px;
+    height: 300px;
+
+    .segment {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      width: 100%;
+      text-align: left;
+      align-items: center;
+    }
+
+    .text-container {
+      font-family: "Exo", serif;
+      margin-left: 20px;
+      .greeting {
+        font-size: 45px;
+        font-weight: bold;
+        margin-bottom: 0;
+      }
+      .compliment {
+        font-size: 20px;
+        
+      }
+    }
+  }
+
+  .pl-text {
+    text-align: left;
+    font-family: "Exo", serif;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 35px;
+    margin-top: 30px;
+    margin-bottom: 0;
+    
+  }
+  .pl-text2 {
+    text-align: left;
+    font-family: "Exo", serif;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 20px;
+    
+  }
 }

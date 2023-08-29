@@ -10,9 +10,7 @@ import {
   Icon,
 } from "semantic-ui-react";
 
-const Profile = ({ token }) => {
-  const [profile, setProfile] = useState("");
-  const [profImg, setProfImg] = useState("");
+const Profile = ({ token, profile, profImg }) => {
   const [topArtists, setTopArtists] = useState([]);
   const [topTracks, setTopTracks] = useState([]);
   const [firstArtist, setFirstArtist] = useState({});
@@ -43,20 +41,6 @@ const Profile = ({ token }) => {
   }, [firstTrack]);
 
   useEffect(() => {
-    // get profile function
-    const getProfile = async () => {
-      const response = await axios.get("https://api.spotify.com/v1/me", {
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-      });
-      const res = response.data;
-      let img = res.images[1];
-      setProfImg(img);
-      setProfile(res);
-    };
-
     // get following function
     const getFollows = async () => {
       const response = await axios.get(
@@ -105,7 +89,6 @@ const Profile = ({ token }) => {
     };
 
     getTopItems();
-    getProfile();
     getFollows();
   }, [token]);
 
