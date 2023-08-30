@@ -61,15 +61,15 @@ body {
   display: flex !important;
 }
 
-.active {
-  background-color: #79accf !important;
-  color: #fff !important;
-}
-
 #my-sidebar {
   display: flex;
   justify-content: center;
   font-family: "Exo", serif;
+
+  .active {
+    background-color: #79accf !important;
+    color: #fff !important;
+  }
 }
 
 .login {
@@ -217,7 +217,6 @@ body {
       }
       .compliment {
         font-size: 20px;
-        
       }
     }
   }
@@ -230,7 +229,6 @@ body {
     font-size: 35px;
     margin-top: 30px;
     margin-bottom: 0;
-    
   }
   .pl-text2 {
     text-align: left;
@@ -238,6 +236,44 @@ body {
     font-weight: bold;
     margin-bottom: 10px;
     font-size: 20px;
-    
+  }
+}
+
+#playlist-modal {
+  font-family: "Exo", serif;
+  .segment {
+    width: 100%;
+  }
+  .content{
+    margin-bottom:15px;
+  }
+ 
+  .description {
+    width: inherit;
+    .modal-tracks-div{
+      margin-bottom:20px;
+    }
+    .track-img {
+      margin-left: 10px;
+    }
+    .modal-track-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .track-title-artist {
+        display: block;
+        text-align: left;
+        margin-left: 10px;
+        .t-title {
+          font-weight: bold;
+          margin-bottom: 0;
+        }
+      }
+      .track-album {
+        margin-left: 15px;
+        margin-right:10px;
+      }
+    }
   }
 }
