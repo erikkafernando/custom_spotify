@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Image, Card, Grid, Segment } from "semantic-ui-react";
+import { Image, Card, Grid, Segment, Loader, Dimmer } from "semantic-ui-react";
 import PlaylistModal from "./PlaylistModal";
 
 const Dashboard = ({ token, profile }) => {
   const [playlists, setPLaylists] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [info, setInfo] = useState({});
+  const [featured, setFeatured] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const croppedImage = {
     width: "100%",
@@ -37,6 +39,7 @@ const Dashboard = ({ token, profile }) => {
   useEffect(() => {
     // get playlist data
     const getPlaylistData = async () => {
+      setIsLoading(true);
       const response = await axios.get(
         "https://api.spotify.com/v1/me/playlists?limit=15&offset=0",
         {
@@ -48,19 +51,46 @@ const Dashboard = ({ token, profile }) => {
       );
       const { items } = response.data;
       console.log("HERE", items);
-      // console.log("prof", profile);
       setPLaylists(items);
+      setIsLoading(false);
+    };
+
+    // get featured playlists
+    const getFeatured = async () => {
+      setIsLoading(true);
+      const response = await axios.get(
+        "https://api.spotify.com/v1/browse/featured-playlists?limit=5&offset=0",
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const res = response.data;
+      console.log("HERE", res);
+      setFeatured(items);
+      setIsLoading(false);
     };
 
     getPlaylistData();
+    getFeatured();
   }, [token]);
 
-  const renderPlaylists = () => {
+  const renderPlaylists = (type) => {
     const rows = [];
     const totalItems = 15;
+    let data = [];
+
+    if (type === 2) {
+      data = playlists;
+    }
+    else {
+      data = featured.playlists.items
+    }
 
     for (let i = 0; i < totalItems; i += 5) {
-      const rowItems = playlists.slice(i, i + 5).map((item, index) => (
+      const rowItems = data.slice(i, i + 5).map((item, index) => (
         <Grid.Column key={index}>
           <Card style={fixedCardSize} onClick={() => onPlaylistClick(item)}>
             <Image
@@ -84,7 +114,7 @@ const Dashboard = ({ token, profile }) => {
 
   const onPlaylistClick = async (item) => {
     let tracksHref = item.tracks.href;
-    
+
 
     setInfo({
       href: tracksHref,
@@ -107,10 +137,26 @@ const Dashboard = ({ token, profile }) => {
         </Segment>
       </div>
 
+      {isLoading === true && (
+        <Dimmer active inverted>
+          <Loader inverted>Loading</Loader>
+        </Dimmer>
+      )}
+
+      <p className="pl-text2">Featured</p>
+      {isLoading === false && (
+        <div className="main-playlist-container">
+          <Grid columns={5}>{renderPlaylists("1")}</Grid>
+        </div>
+      )}
+
       <p className="pl-text2">Your top playlists</p>
-      <div className="main-playlist-container">
-        <Grid columns={5}>{renderPlaylists()}</Grid>
-      </div>
+      {isLoading === false && (
+        <div className="main-playlist-container">
+          <Grid columns={5}>{renderPlaylists("2")}</Grid>
+        </div>
+      )}
+
 
       {isModalOpen && (
         <PlaylistModal
