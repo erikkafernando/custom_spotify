@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  padding-bottom: 6rem;
 }
 
 .App-logo {
@@ -244,14 +245,14 @@ body {
   .segment {
     width: 100%;
   }
-  .content{
-    margin-bottom:15px;
+  .content {
+    margin-bottom: 15px;
   }
- 
+
   .description {
     width: inherit;
-    .modal-tracks-div{
-      margin-bottom:20px;
+    .modal-tracks-div {
+      margin-bottom: 20px;
     }
     .track-img {
       margin-left: 10px;
@@ -272,8 +273,65 @@ body {
       }
       .track-album {
         margin-left: 15px;
-        margin-right:10px;
+        margin-right: 10px;
       }
     }
+  }
+}
+
+.player {
+  font-family: "Exo", serif;
+
+  position: fixed;
+  bottom: 22px;
+  width: 77%;
+  text-align: center;
+  padding: 1rem 0;
+  z-index: 1000;
+  height: 80px;
+  padding-bottom: 5px;
+
+  .segment {
+    height: inherit;
+    width: inherit;
+    display: flex;
+  }
+}
+
+.current-track {
+  font-family: "Exo", serif;
+
+  display: flex;
+  text-align: left;
+  width: 20rem;
+  .ct-name-artist {
+    .ct-name {
+      margin-bottom: 0;
+      margin-top: 5px;
+      font-weight: bold;
+
+    }
+  }
+  .ct-image {
+    margin-right: 10px;
+    img {
+      width: 50px;
+    }
+  }
+}
+
+.controls {
+  
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  /* align-content: center; */
+  justify-content: center;
+  align-items: center;
+
+  .play {
+    margin-left: 15px;
+    margin-right: 15px;
   }
 }

@@ -50,7 +50,7 @@ const Dashboard = ({ token, profile }) => {
         }
       );
       const { items } = response.data;
-      console.log("HERE", items);
+      // console.log("HERE 1" , items);
       setPLaylists(items);
       setIsLoading(false);
     };
@@ -68,8 +68,8 @@ const Dashboard = ({ token, profile }) => {
         }
       );
       const res = response.data;
-      console.log("HERE", res);
-      setFeatured(items);
+      // console.log("HERE 2", res);
+      setFeatured(res);
       setIsLoading(false);
     };
 
@@ -82,7 +82,7 @@ const Dashboard = ({ token, profile }) => {
     const totalItems = 15;
     let data = [];
 
-    if (type === 2) {
+    if (type === '2') {
       data = playlists;
     }
     else {
