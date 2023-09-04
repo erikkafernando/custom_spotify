@@ -31,6 +31,7 @@ const Player = ({ token }) => {
           imageurl: curr_track.album.images[2].url,
           artist: artist.join(", "),
         });
+        console.log("current track", track)
       }
     } catch (error) {
       console.error("Error getting current track:", error);

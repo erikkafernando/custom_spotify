@@ -2,10 +2,44 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Icon } from "semantic-ui-react";
 
-export const Controls = ({ token, track, getCurrentTrack }) => {
+export const Controls = ({ token, getCurrentTrack }) => {
   const [playState, setPlayState] = useState(false);
+  const [player, setPlayer] = useState(undefined);
+  const [deviceID, setDeviceID] = useState("");
 
   useEffect(() => {
+    // SDK
+
+    const script = document.createElement("script");
+    script.src = "https://sdk.scdn.co/spotify-player.js";
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      const player = new window.Spotify.Player({
+        name: "Erikka's Lite Spotify",
+        getOAuthToken: (cb) => {
+          cb(token);
+        },
+        volume: 0.5,
+      });
+
+      setPlayer(player);
+
+      player.addListener("ready", ({ device_id }) => {
+        console.log("Ready with Device ID", device_id);
+        setDeviceID(device_id);
+      });
+
+      player.addListener("not_ready", ({ device_id }) => {
+        console.log("Device ID has gone offline", device_id);
+      });
+
+      player.connect();
+    };
+    // SDK
+
     const currentState = async () => {
       const response = await axios.get("https://api.spotify.com/v1/me/player", {
         headers: {
@@ -48,10 +82,12 @@ export const Controls = ({ token, track, getCurrentTrack }) => {
       }
     );
 
-    if (changeResponse.status === 204) {
+    if (changeResponse.status === 204 || changeResponse.status === 202) {
+      
       setTimeout(async () => {
+        console.log("asdfasdfas")
         await getCurrentTrack();
-      }, 300);
+      }, 200);
     }
   };
 
