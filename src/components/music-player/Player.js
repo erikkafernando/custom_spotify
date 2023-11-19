@@ -8,7 +8,15 @@ import { Controls } from "./Controls";
 const Player = ({ token }) => {
   const [track, setTrack] = useState({});
 
- 
+  const trackSetter = (trackObject) => {
+    let artist = trackObject.artists.map((artist) => artist.name);
+    setTrack({
+      name: trackObject.name,
+      album: trackObject.album.name,
+      imageurl: trackObject.album.images[2].url,
+      artist: artist.join(", "),
+    });
+  };
 
   const getCurrentTrack = useCallback(async () => {
     try {
@@ -23,20 +31,29 @@ const Player = ({ token }) => {
       );
 
       if (response.data !== "") {
+        // get currently playing item
         const curr_track = response.data.item;
-        let artist = curr_track.artists.map((artist) => artist.name);
-        setTrack({
-          name: curr_track.name,
-          album: curr_track.album.name,
-          imageurl: curr_track.album.images[2].url,
-          artist: artist.join(", "),
-        });
-        console.log("current track", track)
+        // console.log("CURRENT - ", response);
+        trackSetter(curr_track);
+      }else{
+        // get most recentlyp played item if there is no currently playing item
+        const lastTrack = await lastPlayed();
+        trackSetter(lastTrack);
       }
     } catch (error) {
       console.error("Error getting current track:", error);
     }
   }, [token]);
+
+  const lastPlayed = async () => {
+    const response = await axios.get("https://api.spotify.com/v1/me/player/recently-played?limit=1", {
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+    });
+   return response.data.items[0].track;
+  }
 
   useEffect(() => {
     getCurrentTrack();

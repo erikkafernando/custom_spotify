@@ -8,8 +8,7 @@ export const Controls = ({ token, getCurrentTrack }) => {
   const [deviceID, setDeviceID] = useState("");
 
   useEffect(() => {
-    // SDK
-
+    // START OF SDK INIT
     const script = document.createElement("script");
     script.src = "https://sdk.scdn.co/spotify-player.js";
     script.async = true;
@@ -37,8 +36,18 @@ export const Controls = ({ token, getCurrentTrack }) => {
       });
 
       player.connect();
+      player.getCurrentState().then(state => {
+        if (!state) {
+          console.error('User is not playing music through the Web Playback SDK');
+          return;
+        }
+
+        console.log('Currently Playing',state );
+      });
+
+
     };
-    // SDK
+    // END OF SDK INIT
 
     const currentState = async () => {
       const response = await axios.get("https://api.spotify.com/v1/me/player", {
@@ -49,11 +58,13 @@ export const Controls = ({ token, getCurrentTrack }) => {
       });
 
       setPlayState(response.data.is_playing);
+      // console.log("CHANGE STATE",  response);
     };
 
     currentState();
   }, [token]);
 
+  // START OF PLAY / PAUSE STATE
   const changeState = async () => {
     const state = playState ? "pause" : "play";
     await axios.put(
@@ -69,7 +80,9 @@ export const Controls = ({ token, getCurrentTrack }) => {
 
     setPlayState(!playState);
   };
+  // END OF PLAY / PAUSE STATE
 
+  // START OF CHANGE TRACK
   const changeTrack = async (type) => {
     var changeResponse = await axios.post(
       `https://api.spotify.com/v1/me/player/${type}`,
@@ -83,13 +96,12 @@ export const Controls = ({ token, getCurrentTrack }) => {
     );
 
     if (changeResponse.status === 204 || changeResponse.status === 202) {
-      
       setTimeout(async () => {
-        console.log("asdfasdfas")
         await getCurrentTrack();
       }, 200);
     }
   };
+  // END OF CHANGE TRACK
 
   return (
     <div className="controls">

@@ -50,7 +50,6 @@ const Dashboard = ({ token, profile }) => {
         }
       );
       const { items } = response.data;
-      // console.log("HERE 1" , items);
       setPLaylists(items);
       setIsLoading(false);
     };
@@ -68,7 +67,6 @@ const Dashboard = ({ token, profile }) => {
         }
       );
       const res = response.data;
-      // console.log("HERE 2", res);
       setFeatured(res);
       setIsLoading(false);
     };
@@ -157,7 +155,7 @@ const Dashboard = ({ token, profile }) => {
         </div>
       )}
 
-
+        
       {isModalOpen && (
         <PlaylistModal
           token={token}
