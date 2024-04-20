@@ -9,6 +9,7 @@ const Dashboard = ({ token, profile }) => {
   const [info, setInfo] = useState({});
   const [featured, setFeatured] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const defaultImageUrl = 'https://developer.spotify.com/images/guidelines/design/icon3@2x.png';
 
   const croppedImage = {
     width: "100%",
@@ -49,8 +50,8 @@ const Dashboard = ({ token, profile }) => {
           },
         }
       );
-      const { items } = response.data;
-      setPLaylists(items);
+      const res = response.data.items;
+      setPLaylists(res);
       setIsLoading(false);
     };
 
@@ -66,7 +67,7 @@ const Dashboard = ({ token, profile }) => {
           },
         }
       );
-      const res = response.data;
+      const res = response.data.playlists.items;
       setFeatured(res);
       setIsLoading(false);
     };
@@ -77,22 +78,32 @@ const Dashboard = ({ token, profile }) => {
 
   const renderPlaylists = (type) => {
     const rows = [];
-    const totalItems = 15;
+    const totalItems = 10;
     let data = [];
 
     if (type === '2') {
+      console.log("playlists - ", playlists)
       data = playlists;
     }
     else {
-      data = featured.playlists.items
+      console.log("featured - ", featured)
+      data = featured
     }
+
+    console.log(data, "data")
+
+    // Check if data is empty or still loading
+    if (data.length === 0) {
+      return <div>Loading...</div>;
+    }
+  
 
     for (let i = 0; i < totalItems; i += 5) {
       const rowItems = data.slice(i, i + 5).map((item, index) => (
         <Grid.Column key={index}>
           <Card style={fixedCardSize} onClick={() => onPlaylistClick(item)}>
             <Image
-              src={item.images[0].url}
+              src={item.images && item.images.length > 0 ? item.images[0].url : defaultImageUrl}
               alt={item.name}
               size="small"
               style={croppedImage}
@@ -102,7 +113,7 @@ const Dashboard = ({ token, profile }) => {
             </Card.Content>
           </Card>
         </Grid.Column>
-      ));
+    ));
 
       rows.push(<Grid.Row key={i}>{rowItems}</Grid.Row>);
     }
@@ -112,7 +123,6 @@ const Dashboard = ({ token, profile }) => {
 
   const onPlaylistClick = async (item) => {
     let tracksHref = item.tracks.href;
-
 
     setInfo({
       href: tracksHref,
