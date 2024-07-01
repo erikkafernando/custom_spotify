@@ -82,21 +82,18 @@ const Dashboard = ({ token, profile }) => {
     let data = [];
 
     if (type === '2') {
-      console.log("playlists - ", playlists)
       data = playlists;
     }
     else {
-      console.log("featured - ", featured)
       data = featured
     }
 
-    console.log(data, "data")
-
+    setTimeout(() => {}, 2500);
+    
     // Check if data is empty or still loading
     if (data.length === 0) {
       return <div>Loading...</div>;
     }
-  
 
     for (let i = 0; i < totalItems; i += 5) {
       const rowItems = data.slice(i, i + 5).map((item, index) => (

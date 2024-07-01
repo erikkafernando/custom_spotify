@@ -33,7 +33,6 @@ const Player = ({ token }) => {
       if (response.data !== "") {
         // get currently playing item
         const curr_track = response.data.item;
-        // console.log("CURRENT - ", response);
         trackSetter(curr_track);
       }else{
         // get most recentlyp played item if there is no currently playing item

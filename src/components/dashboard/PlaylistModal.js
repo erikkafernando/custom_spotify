@@ -27,7 +27,6 @@ const PlaylistModal = ({ token, info, onClose }) => {
       const { items } = response.data;
 
       setPlaylistData(items);
-      console.log("MODAL DATA", items);
       setIsLoading(false);
     };
 
